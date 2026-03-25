@@ -1,0 +1,493 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batalla - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="game-screen">
+
+    <!-- HUD Superior -->
+    <div class="game-hud">
+
+        <!-- Lado izquierdo: Jugador -->
+        <div class="hud-left">
+            <div class="player-panel">
+                <div class="player-avatar">
+                    {% if request.user.personaje_seleccionado %}
+                        {{ request.user.personaje_seleccionado.clase }}
+                    {% else %}
+                        ⚔️
+                    {% endif %}
+                </div>
+                <div class="player-stats">
+                    <span class="player-name">
+                        {% if request.user.personaje_seleccionado %}
+                            {{ request.user.personaje_seleccionado.nombre }}
+                        {% else %}
+                            {{ request.user.username }}
+                        {% endif %}
+                    </span>
+                    <div class="hp-bar">
+                        <div class="hp-fill" id="playerHP" style="width: 100%"></div>
+                        <span class="hp-text"><span id="playerHPValue">100</span>/100</span>
+                    </div>
+                    <div class="energy-bar">
+                        <div class="energy-fill" id="playerEnergy" style="width: 100%"></div>
+                        <span class="energy-text">Energía: <span id="playerEnergyValue">100</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centro -->
+        <div class="hud-center">
+            <div class="level-info">
+                <h2 id="levelName">{{ nivel_nombre|default:"Nivel 1: Pantano Maldito" }}</h2>
+            </div>
+            <div class="score-display">
+                <span class="score-label">Puntuación:</span>
+                <span class="score-value" id="scoreValue">0</span>
+            </div>
+            <div class="timer-display">
+                <span class="timer-icon">⏱️</span>
+                <span id="timer">00:00</span>
+            </div>
+        </div>
+
+        <!-- Lado derecho: Boss -->
+        <div class="hud-right">
+            <div class="boss-panel">
+                <div class="boss-stats">
+                    <span class="boss-name" id="bossName">{{ boss_nombre|default:"Vorgath el Sapo" }}</span>
+                    <div class="boss-hp-bar">
+                        <div class="boss-hp-fill" id="bossHP" style="width: 100%"></div>
+                        <span class="boss-hp-text"><span id="bossHPValue">100</span>/100</span>
+                    </div>
+                </div>
+                <div class="boss-avatar">{{ boss_emoji|default:"🐸" }}</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Área de Batalla -->
+    <div class="battle-arena">
+
+        <div class="player-character" id="player">
+            <div class="character-sprite">
+                {% if request.user.personaje_seleccionado %}
+                    {{ request.user.personaje_seleccionado.clase }}
+                {% else %}
+                    ⚔️
+                {% endif %}
+            </div>
+            <div class="character-name">TÚ</div>
+        </div>
+
+        <div class="boss-character" id="boss">
+            <div class="character-sprite boss-sprite">{{ boss_emoji|default:"🐸" }}</div>
+            <div class="character-name">{{ boss_nombre|default:"VORGATH" }}</div>
+        </div>
+
+        <div class="effects-layer" id="effectsLayer"></div>
+
+    </div>
+
+    <!-- Panel de Controles -->
+    <div class="game-controls">
+        <div class="controls-wrapper">
+            <button class="btn-action btn-attack" id="btnAttack" onclick="playerAttack()">
+                <span class="action-icon">⚔️</span>
+                <span class="action-name">Atacar</span>
+                <span class="action-cost">Gratis</span>
+            </button>
+            <button class="btn-action btn-defend" id="btnDefend" onclick="playerDefend()">
+                <span class="action-icon">🛡️</span>
+                <span class="action-name">Defender</span>
+                <span class="action-cost">Gratis</span>
+            </button>
+            <button class="btn-action btn-special" id="btnSpecial" onclick="playerSpecial()">
+                <span class="action-icon">✨</span>
+                <span class="action-name">Especial</span>
+                <span class="action-cost">-20 Energía</span>
+            </button>
+            <button class="btn-action btn-item" id="btnItem" onclick="useItem()">
+                <span class="action-icon">💚</span>
+                <span class="action-name">Curar</span>
+                <span class="action-cost">x3</span>
+            </button>
+            <button class="btn-action btn-pause" onclick="pauseGame()">
+                <span class="action-icon">⏸️</span>
+                <span class="action-name">Pausa</span>
+            </button>
+        </div>
+        <div class="battle-log" id="battleLog">
+            <div class="log-entry">¡La batalla comienza!</div>
+        </div>
+    </div>
+
+    <!-- MODAL DE VICTORIA -->
+    <div class="modal" id="victoryModal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content victory-modal">
+            <div class="modal-header"><h2>¡VICTORIA!</h2></div>
+            <div class="modal-body">
+                <p class="victory-text">Has derrotado a <strong>{{ boss_nombre|default:"Vorgath" }}</strong></p>
+                <div class="victory-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Puntuación Final:</span>
+                        <span class="stat-value" id="finalScore">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Tiempo:</span>
+                        <span class="stat-value" id="finalTime">00:00</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">XP Ganada:</span>
+                        <span class="stat-value" id="xpGanada">+500 XP</span>
+                    </div>
+                </div>
+                <div class="stars-rating">
+                    <span class="star filled">⭐</span>
+                    <span class="star filled">⭐</span>
+                    <span class="star filled">⭐</span>
+                </div>
+                <div id="saveStatus" style="margin-top:10px; color:#90ee90;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="returnToMap()">Volver al Mapa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE DERROTA -->
+    <div class="modal" id="defeatModal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content defeat-modal">
+            <div class="modal-header"><h2>Has Caído...</h2></div>
+            <div class="modal-body">
+                <p class="defeat-text"><strong>{{ boss_nombre|default:"Vorgath" }}</strong> te ha derrotado</p>
+                <p class="defeat-quote">"La oscuridad prevalece... por ahora."</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="retry()">Reintentar</button>
+                <button class="btn btn-secondary" onclick="returnToMap()">Volver al Mapa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PAUSA -->
+    <div class="modal" id="pauseModal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content pause-modal">
+            <div class="modal-header"><h2>Juego Pausado</h2></div>
+            <div class="modal-body">
+                <button class="btn btn-primary btn-block" onclick="resumeGame()">Continuar</button>
+                <button class="btn btn-secondary btn-block" onclick="returnToMap()">Salir al Mapa</button>
+                <button class="btn btn-outline btn-block" onclick="window.location.href='{% url 'settings' %}'">Configuración</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        const CSRF_TOKEN = "{{ csrf_token }}";
+        const NIVEL_ID = {{ nivel_id|default:1 }};
+
+        let playerHP = 100;
+        let playerEnergy = 100;
+        let bossHP = 100;
+        let score = 0;
+        let isDefending = false;
+        let itemsRemaining = 3;
+        let gameActive = true;
+        let timerSeconds = 0;
+        let timerInterval;
+
+        window.onload = function() { startGame(); };
+
+        function startGame() {
+            timerInterval = setInterval(() => { timerSeconds++; updateTimer(); }, 1000);
+            addLog('¡La batalla comienza!');
+        }
+
+        function updateTimer() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer').textContent =
+                `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        }
+
+        function playerAttack() {
+            if (!gameActive) return;
+            const damage = Math.floor(Math.random() * 20) + 10;
+            bossHP -= damage;
+            score += damage;
+            updateUI();
+            animateAttack('player');
+            showDamage(damage, 'boss');
+            addLog(`Atacaste causando ${damage} de daño`);
+            checkWinCondition();
+            if (gameActive) setTimeout(bossAttack, 1000);
+        }
+
+        function playerDefend() {
+            if (!gameActive) return;
+            isDefending = true;
+            score += 5;
+            updateUI();
+            addLog('Te preparas para defender');
+            setTimeout(() => { bossAttack(); isDefending = false; }, 500);
+        }
+
+        function playerSpecial() {
+            if (!gameActive || playerEnergy < 20) return;
+            playerEnergy -= 20;
+            const damage = Math.floor(Math.random() * 40) + 30;
+            bossHP -= damage;
+            score += damage * 2;
+            updateUI();
+            animateSpecial('player');
+            showDamage(damage, 'boss');
+            addLog(`¡Ataque especial! Causaste ${damage} de daño`);
+            checkWinCondition();
+            if (gameActive) setTimeout(bossAttack, 1500);
+        }
+
+        function useItem() {
+            if (!gameActive || itemsRemaining <= 0) return;
+            itemsRemaining--;
+            playerHP = Math.min(100, playerHP + 30);
+            updateUI();
+            showHeal(30, 'player');
+            addLog(`Usaste una poción (+30 HP)`);
+            document.getElementById('btnItem').querySelector('.action-cost').textContent = `x${itemsRemaining}`;
+            if (itemsRemaining === 0) document.getElementById('btnItem').disabled = true;
+        }
+
+        function bossAttack() {
+            if (!gameActive) return;
+            let damage = Math.floor(Math.random() * 15) + 5;
+            if (isDefending) {
+                damage = Math.floor(damage * 0.5);
+                addLog(`Bloqueaste. Solo recibiste ${damage} de daño`);
+            } else {
+                addLog(`El boss te atacó causando ${damage} de daño`);
+            }
+            playerHP -= damage;
+            updateUI();
+            animateAttack('boss');
+            showDamage(damage, 'player');
+            checkLoseCondition();
+        }
+
+        function updateUI() {
+            document.getElementById('playerHP').style.width = Math.max(0, playerHP) + '%';
+            document.getElementById('playerHPValue').textContent = Math.max(0, playerHP);
+            document.getElementById('playerEnergy').style.width = Math.max(0, playerEnergy) + '%';
+            document.getElementById('playerEnergyValue').textContent = Math.max(0, playerEnergy);
+            document.getElementById('bossHP').style.width = Math.max(0, bossHP) + '%';
+            document.getElementById('bossHPValue').textContent = Math.max(0, bossHP);
+            document.getElementById('scoreValue').textContent = score;
+            if (playerEnergy < 100) playerEnergy = Math.min(100, playerEnergy + 5);
+        }
+
+        function animateAttack(who) {
+            const el = document.getElementById(who);
+            el.classList.add('attacking');
+            setTimeout(() => el.classList.remove('attacking'), 300);
+        }
+
+        function animateSpecial(who) {
+            const el = document.getElementById(who);
+            el.classList.add('special-attack');
+            setTimeout(() => el.classList.remove('special-attack'), 500);
+        }
+
+        function showDamage(amount, target) {
+            const el = document.getElementById(target);
+            const rect = el.getBoundingClientRect();
+            const dmg = document.createElement('div');
+            dmg.className = 'damage-number';
+            dmg.textContent = '-' + amount;
+            dmg.style.left = rect.left + rect.width / 2 + 'px';
+            dmg.style.top = rect.top + 'px';
+            document.getElementById('effectsLayer').appendChild(dmg);
+            setTimeout(() => dmg.remove(), 1000);
+        }
+
+        function showHeal(amount, target) {
+            const el = document.getElementById(target);
+            const rect = el.getBoundingClientRect();
+            const heal = document.createElement('div');
+            heal.className = 'heal-number';
+            heal.textContent = '+' + amount;
+            heal.style.left = rect.left + rect.width / 2 + 'px';
+            heal.style.top = rect.top + 'px';
+            document.getElementById('effectsLayer').appendChild(heal);
+            setTimeout(() => heal.remove(), 1000);
+        }
+
+        function addLog(message) {
+            const log = document.getElementById('battleLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = message;
+            log.prepend(entry);
+            while (log.children.length > 5) log.removeChild(log.lastChild);
+        }
+
+        function checkWinCondition() {
+            if (bossHP <= 0) {
+                gameActive = false;
+                clearInterval(timerInterval);
+                setTimeout(() => {
+                    document.getElementById('finalScore').textContent = score;
+                    document.getElementById('finalTime').textContent = document.getElementById('timer').textContent;
+                    showModal('victoryModal');
+                    saveVictory();
+                }, 1000);
+            }
+        }
+
+        function checkLoseCondition() {
+            if (playerHP <= 0) {
+                gameActive = false;
+                clearInterval(timerInterval);
+                setTimeout(() => {
+                    saveDerrota();
+                    showModal('defeatModal');
+                }, 1000);
+            }
+        }
+
+        function saveVictory() {
+            fetch("{% url 'save_game_result' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": CSRF_TOKEN
+                },
+                body: `resultado=victoria&score=${score}&nivel_id=${NIVEL_ID}&tiempo=${timerSeconds}`
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.ok) {
+                    document.getElementById('xpGanada').textContent = `+${data.xp_ganada} XP`;
+                    document.getElementById('saveStatus').textContent = '✅ Progreso guardado';
+                }
+            })
+            .catch(() => {
+                document.getElementById('saveStatus').textContent = '⚠️ No se pudo guardar';
+            });
+        }
+
+        function saveDerrota() {
+            fetch("{% url 'save_game_result' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": CSRF_TOKEN
+                },
+                body: `resultado=derrota&score=${score}&nivel_id=${NIVEL_ID}&tiempo=${timerSeconds}`
+            })
+            .then(r => r.json())
+            .catch(() => {});
+        }
+        function setButtonsEnabled(enabled) {
+    document.getElementById('btnAttack').disabled = !enabled;
+    document.getElementById('btnDefend').disabled = !enabled;
+    document.getElementById('btnSpecial').disabled = !enabled;
+    if (itemsRemaining > 0) document.getElementById('btnItem').disabled = !enabled;
+}
+
+function playerAttack() {
+    if (!gameActive) return;
+    setButtonsEnabled(false);
+    const damage = Math.floor(Math.random() * 20) + 10;
+    bossHP -= damage;
+    score += damage;
+    updateUI();
+    animateAttack('player');
+    showDamage(damage, 'boss');
+    addLog(`Atacaste causando ${damage} de daño`);
+    checkWinCondition();
+    if (gameActive) setTimeout(() => { bossAttack(); }, 1000);
+}
+
+function playerDefend() {
+    if (!gameActive) return;
+    setButtonsEnabled(false);
+    isDefending = true;
+    score += 5;
+    updateUI();
+    addLog('Te preparas para defender');
+    setTimeout(() => { bossAttack(); isDefending = false; }, 500);
+}
+
+function playerSpecial() {
+    if (!gameActive || playerEnergy < 20) return;
+    setButtonsEnabled(false);
+    playerEnergy -= 20;
+    const damage = Math.floor(Math.random() * 40) + 30;
+    bossHP -= damage;
+    score += damage * 2;
+    updateUI();
+    animateSpecial('player');
+    showDamage(damage, 'boss');
+    addLog(`¡Ataque especial! Causaste ${damage} de daño`);
+    checkWinCondition();
+    if (gameActive) setTimeout(() => { bossAttack(); }, 1500);
+}
+
+function useItem() {
+    if (!gameActive || itemsRemaining <= 0) return;
+    setButtonsEnabled(false);
+    itemsRemaining--;
+    playerHP = Math.min(100, playerHP + 30);
+    updateUI();
+    showHeal(30, 'player');
+    addLog(`Usaste una poción (+30 HP)`);
+    document.getElementById('btnItem').querySelector('.action-cost').textContent = `x${itemsRemaining}`;
+    setTimeout(() => { bossAttack(); }, 500);
+}
+
+function bossAttack() {
+    if (!gameActive) return;
+    let damage = Math.floor(Math.random() * 15) + 5;
+    if (isDefending) {
+        damage = Math.floor(damage * 0.5);
+        addLog(`Bloqueaste. Solo recibiste ${damage} de daño`);
+    } else {
+        addLog(`El boss te atacó causando ${damage} de daño`);
+    }
+    playerHP -= damage;
+    updateUI();
+    animateAttack('boss');
+    showDamage(damage, 'player');
+    checkLoseCondition();
+    if (gameActive) setButtonsEnabled(true);
+}
+
+        function pauseGame() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            showModal('pauseModal');
+        }
+
+        function resumeGame() {
+            gameActive = true;
+            timerInterval = setInterval(() => { timerSeconds++; updateTimer(); }, 1000);
+            closeModal('pauseModal');
+        }
+
+        function showModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function returnToMap() { window.location.href = "{% url 'level_selection' %}"; }
+        function retry() { window.location.reload(); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="profile-page">
+    <header class="game-header">
+      <div class="game-nav">
+        <a href="{% url 'level_selection' %}" class="btn-back">Volver al Mapa</a>
+        <div class="logo-small">SHADOW REALMS</div>
+        <div class="nav-links-game">
+          <a href="{% url 'leaderboard' %}" class="btn-profile">Ranking</a>
+          <a href="{% url 'settings' %}" class="btn-settings">Configuración</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="profile-content">
+      <div class="container">
+
+        <div class="profile-header">
+          <div class="profile-avatar-section">
+            <div class="profile-avatar">
+              <div class="avatar-circle">
+                {% if usuario.personaje_seleccionado %}
+                  {{ usuario.personaje_seleccionado.clase }}
+                {% else %}
+                  SR
+                {% endif %}
+              </div>
+            </div>
+            <div class="profile-info">
+              <h1 class="profile-name">{{ usuario.nombre_mostrar|default:usuario.username }}</h1>
+              <p class="profile-title">{{ usuario.titulo|default:"Aventurero" }}</p>
+              {% if usuario.id_pais %}
+              <div class="profile-location">
+                <span>{{ usuario.id_pais.emoji_bandera }} {{ usuario.id_pais.nombre }}</span>
+              </div>
+              {% endif %}
+              <div class="profile-joined">Miembro desde: {{ usuario.fecha_registro|date:"F Y" }}</div>
+            </div>
+          </div>
+
+          <div class="profile-stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">{{ usuario.partidas_jugadas }}</div>
+              <div class="stat-label">Partidas Jugadas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">{{ usuario.partidas_ganadas }}</div>
+              <div class="stat-label">Victorias</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">{{ usuario.estrellas_totales }}</div>
+              <div class="stat-label">Estrellas Totales</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">
+                {% if usuario.partidas_jugadas > 0 %}
+                  {% widthratio usuario.partidas_ganadas usuario.partidas_jugadas 100 %}%
+                {% else %}
+                  0%
+                {% endif %}
+              </div>
+              <div class="stat-label">Ratio de Victoria</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-tabs">
+          <button class="tab-button active" onclick="showTab('overview')">Resumen</button>
+          <button class="tab-button" onclick="showTab('characters')">Personajes</button>
+          <button class="tab-button" onclick="showTab('achievements')">Logros</button>
+          <button class="tab-button" onclick="showTab('history')">Historial</button>
+        </div>
+
+        <!-- Tab: Resumen -->
+        <div class="tab-content active" id="overview">
+          <div class="section-card">
+            <h2 class="section-title">Progreso</h2>
+            <div class="level-progress">
+              <div class="level-info-row">
+                <span class="current-level">Nivel {{ usuario.nivel_cuenta }}</span>
+                <span class="xp-text">{{ usuario.xp_total }} XP</span>
+              </div>
+              <div class="xp-bar">
+                <div class="xp-fill" style="width: {% widthratio usuario.xp_total 10000 100 %}%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <h2 class="section-title">Información de Cuenta</h2>
+            <div class="level-progress">
+              <p><strong>Usuario:</strong> {{ usuario.username }}</p>
+              <p><strong>Email:</strong> {{ usuario.email }}</p>
+              <p><strong>Rol:</strong> {{ usuario.id_rol }}</p>
+              <p><strong>Registro:</strong> {{ usuario.fecha_registro|date:"d/m/Y" }}</p>
+              {% if usuario.biografia %}
+              <p><strong>Biografía:</strong> {{ usuario.biografia }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Personajes -->
+        <div class="tab-content" id="characters" style="display: none">
+          <div class="section-card">
+            <h2 class="section-title">Héroe Activo</h2>
+            {% if usuario.personaje_seleccionado %}
+            <div class="character-card" style="max-width:300px;">
+              <div class="character-icon">{{ usuario.personaje_seleccionado.clase }}</div>
+              <h3>{{ usuario.personaje_seleccionado.nombre }}</h3>
+              <p>{{ usuario.personaje_seleccionado.descripcion }}</p>
+              <div class="character-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Fuerza</span>
+                  <span class="stat-value">{{ usuario.personaje_seleccionado.stat_fuerza }}/10</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Velocidad</span>
+                  <span class="stat-value">{{ usuario.personaje_seleccionado.stat_velocidad }}/10</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Magia</span>
+                  <span class="stat-value">{{ usuario.personaje_seleccionado.stat_magia }}/10</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Defensa</span>
+                  <span class="stat-value">{{ usuario.personaje_seleccionado.stat_defensa }}/10</span>
+                </div>
+              </div>
+              <a href="{% url 'character_selection' %}" class="btn btn-outline" style="margin-top:10px;">Cambiar Héroe</a>
+            </div>
+            {% else %}
+            <p>No has seleccionado un héroe aún. <a href="{% url 'character_selection' %}">Seleccionar ahora</a></p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Tab: Logros -->
+        <!-- Tab: Logros -->
+<div class="tab-content" id="achievements" style="display: none">
+  <div class="section-card">
+    <h2 class="section-title">Logros ({{ logros.count }})</h2>
+    {% if logros %}
+    <div style="display:flex; flex-wrap:wrap; gap:16px;">
+      {% for lu in logros %}
+      <div class="stat-card" style="min-width:180px;">
+        <div style="font-size:2rem;">{{ lu.id_logro.icono }}</div>
+        <div class="stat-label" style="font-weight:bold;">{{ lu.id_logro.nombre }}</div>
+        <div style="font-size:0.8rem; opacity:0.7;">{{ lu.id_logro.descripcion }}</div>
+        <div style="font-size:0.75rem; color:#90ee90;">+{{ lu.id_logro.xp_recompensa }} XP</div>
+        <div style="font-size:0.7rem; opacity:0.5;">{{ lu.fecha_obtenido|date:"d/m/Y" }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>Aún no tienes logros. ¡Juega para desbloquearlos!</p>
+    {% endif %}
+  </div>
+</div>
+
+        <!-- Tab: Historial -->
+       <!-- Tab: Historial -->
+<div class="tab-content" id="history" style="display: none">
+  <div class="section-card">
+    <h2 class="section-title">Historial de Partidas</h2>
+    {% if historial %}
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Nivel</th>
+          <th>Personaje</th>
+          <th>Resultado</th>
+          <th>Score</th>
+          <th>XP Ganada</th>
+          <th>Tiempo</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in historial %}
+        <tr>
+          <td>Nivel {{ p.nivel_id }}</td>
+          <td>{{ p.id_personaje.nombre|default:"-" }}</td>
+          <td>
+            {% if p.resultado == "VICTORIA" %}
+              <span style="color:#90ee90;">⚔️ Victoria</span>
+            {% else %}
+              <span style="color:#ff4444;">💀 Derrota</span>
+            {% endif %}
+          </td>
+          <td>{{ p.score }}</td>
+          <td>+{{ p.xp_ganada }} XP</td>
+          <td>{{ p.tiempo_segundos }}s</td>
+          <td>{{ p.fecha|date:"d/m/Y H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>Aún no has jugado ninguna partida. <a href="{% url 'level_selection' %}">¡Jugar ahora!</a></p>
+    {% endif %}
+  </div>
+</div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      function showTab(tabName) {
+        document.querySelectorAll(".tab-content").forEach(t => t.style.display = "none");
+        document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+        document.getElementById(tabName).style.display = "block";
+        event.target.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

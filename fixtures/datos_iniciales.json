@@ -1,0 +1,827 @@
+[
+{
+  "model": "game.catrol",
+  "pk": 1,
+  "fields": {
+    "nombre_rol": "ADMIN",
+    "descripcion": "Administrador",
+    "activo": true
+  }
+},
+{
+  "model": "game.catrol",
+  "pk": 2,
+  "fields": {
+    "nombre_rol": "JUGADOR",
+    "descripcion": "Jugador est├índar",
+    "activo": true
+  }
+},
+{
+  "model": "game.catrol",
+  "pk": 3,
+  "fields": {
+    "nombre_rol": "MODERADOR",
+    "descripcion": "Moderador",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 1,
+  "fields": {
+    "nombre": "M├⌐xico",
+    "codigo_iso": "MX",
+    "emoji_bandera": "≡ƒç▓≡ƒç╜",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 2,
+  "fields": {
+    "nombre": "Estados Unidos",
+    "codigo_iso": "US",
+    "emoji_bandera": "≡ƒç║≡ƒç╕",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 3,
+  "fields": {
+    "nombre": "Espa├▒a",
+    "codigo_iso": "ES",
+    "emoji_bandera": "≡ƒç¬≡ƒç╕",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 4,
+  "fields": {
+    "nombre": "Argentina",
+    "codigo_iso": "AR",
+    "emoji_bandera": "≡ƒçª≡ƒç╖",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 5,
+  "fields": {
+    "nombre": "Colombia",
+    "codigo_iso": "CO",
+    "emoji_bandera": "≡ƒç¿≡ƒç┤",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 6,
+  "fields": {
+    "nombre": "Chile",
+    "codigo_iso": "CL",
+    "emoji_bandera": "≡ƒç¿≡ƒç▒",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 7,
+  "fields": {
+    "nombre": "Brasil",
+    "codigo_iso": "BR",
+    "emoji_bandera": "≡ƒçº≡ƒç╖",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 8,
+  "fields": {
+    "nombre": "Per├║",
+    "codigo_iso": "PE",
+    "emoji_bandera": "≡ƒç╡≡ƒç¬",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 9,
+  "fields": {
+    "nombre": "Venezuela",
+    "codigo_iso": "VE",
+    "emoji_bandera": "≡ƒç╗≡ƒç¬",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 10,
+  "fields": {
+    "nombre": "Ecuador",
+    "codigo_iso": "EC",
+    "emoji_bandera": "≡ƒç¬≡ƒç¿",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 11,
+  "fields": {
+    "nombre": "Guatemala",
+    "codigo_iso": "GT",
+    "emoji_bandera": "≡ƒç¼≡ƒç╣",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 12,
+  "fields": {
+    "nombre": "Cuba",
+    "codigo_iso": "CU",
+    "emoji_bandera": "≡ƒç¿≡ƒç║",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 13,
+  "fields": {
+    "nombre": "Bolivia",
+    "codigo_iso": "BO",
+    "emoji_bandera": "≡ƒçº≡ƒç┤",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 14,
+  "fields": {
+    "nombre": "Honduras",
+    "codigo_iso": "HN",
+    "emoji_bandera": "≡ƒç¡≡ƒç│",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 15,
+  "fields": {
+    "nombre": "Paraguay",
+    "codigo_iso": "PY",
+    "emoji_bandera": "≡ƒç╡≡ƒç╛",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 16,
+  "fields": {
+    "nombre": "El Salvador",
+    "codigo_iso": "SV",
+    "emoji_bandera": "≡ƒç╕≡ƒç╗",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 17,
+  "fields": {
+    "nombre": "Nicaragua",
+    "codigo_iso": "NI",
+    "emoji_bandera": "≡ƒç│≡ƒç«",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 18,
+  "fields": {
+    "nombre": "Costa Rica",
+    "codigo_iso": "CR",
+    "emoji_bandera": "≡ƒç¿≡ƒç╖",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 19,
+  "fields": {
+    "nombre": "Uruguay",
+    "codigo_iso": "UY",
+    "emoji_bandera": "≡ƒç║≡ƒç╛",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 20,
+  "fields": {
+    "nombre": "Panam├í",
+    "codigo_iso": "PA",
+    "emoji_bandera": "≡ƒç╡≡ƒçª",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 21,
+  "fields": {
+    "nombre": "Reino Unido",
+    "codigo_iso": "GB",
+    "emoji_bandera": "≡ƒç¼≡ƒçº",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 22,
+  "fields": {
+    "nombre": "Alemania",
+    "codigo_iso": "DE",
+    "emoji_bandera": "≡ƒç⌐≡ƒç¬",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 23,
+  "fields": {
+    "nombre": "Francia",
+    "codigo_iso": "FR",
+    "emoji_bandera": "≡ƒç½≡ƒç╖",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 24,
+  "fields": {
+    "nombre": "Italia",
+    "codigo_iso": "IT",
+    "emoji_bandera": "≡ƒç«≡ƒç╣",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 25,
+  "fields": {
+    "nombre": "Jap├│n",
+    "codigo_iso": "JP",
+    "emoji_bandera": "≡ƒç»≡ƒç╡",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 26,
+  "fields": {
+    "nombre": "Canad├í",
+    "codigo_iso": "CA",
+    "emoji_bandera": "≡ƒç¿≡ƒçª",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 27,
+  "fields": {
+    "nombre": "Australia",
+    "codigo_iso": "AU",
+    "emoji_bandera": "≡ƒçª≡ƒç║",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 28,
+  "fields": {
+    "nombre": "Portugal",
+    "codigo_iso": "PT",
+    "emoji_bandera": "≡ƒç╡≡ƒç╣",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 29,
+  "fields": {
+    "nombre": "Corea del Sur",
+    "codigo_iso": "KR",
+    "emoji_bandera": "≡ƒç░≡ƒç╖",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpais",
+  "pk": 30,
+  "fields": {
+    "nombre": "Otro",
+    "codigo_iso": "XX",
+    "emoji_bandera": "≡ƒîì",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpersonaje",
+  "pk": 1,
+  "fields": {
+    "nombre": "El Caballero Oscuro",
+    "clase": "Guerrero",
+    "descripcion": "",
+    "stat_fuerza": 9,
+    "stat_velocidad": 6,
+    "stat_magia": 4,
+    "stat_defensa": 8,
+    "hp_base": 280,
+    "energia_base": 80,
+    "companero": "Lobo Espectral",
+    "sprite_key": "knight",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpersonaje",
+  "pk": 2,
+  "fields": {
+    "nombre": "La Hechicera de Sombras",
+    "clase": "Maga",
+    "descripcion": "",
+    "stat_fuerza": 4,
+    "stat_velocidad": 7,
+    "stat_magia": 10,
+    "stat_defensa": 5,
+    "hp_base": 180,
+    "energia_base": 130,
+    "companero": "Cuervo M├¡stico",
+    "sprite_key": "mage",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpersonaje",
+  "pk": 3,
+  "fields": {
+    "nombre": "El Arquero Fantasma",
+    "clase": "Cazador",
+    "descripcion": "",
+    "stat_fuerza": 6,
+    "stat_velocidad": 10,
+    "stat_magia": 6,
+    "stat_defensa": 4,
+    "hp_base": 200,
+    "energia_base": 100,
+    "companero": "Zorro Plateado",
+    "sprite_key": "archer",
+    "activo": true
+  }
+},
+{
+  "model": "game.catpersonaje",
+  "pk": 4,
+  "fields": {
+    "nombre": "El Palad├¡n de Luz",
+    "clase": "Protector",
+    "descripcion": "",
+    "stat_fuerza": 8,
+    "stat_velocidad": 5,
+    "stat_magia": 7,
+    "stat_defensa": 9,
+    "hp_base": 260,
+    "energia_base": 100,
+    "companero": "Unicornio Blanco",
+    "sprite_key": "paladin",
+    "activo": true
+  }
+},
+{
+  "model": "game.usuario",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$8VMag7EOUmfSLSZUAWYWfi$gWcBS0QSrHgukpxzn/6vJT4BiBjX3RhHumRfwwbkfOs=",
+    "last_login": "2026-03-07T20:02:30.185Z",
+    "is_superuser": true,
+    "id_rol": null,
+    "id_pais": null,
+    "username": "voidVrtX",
+    "email": "erik.osbaldovm506@gmail.com",
+    "nombre_mostrar": "",
+    "biografia": "",
+    "xp_total": 16896,
+    "nivel_cuenta": 17,
+    "partidas_jugadas": 22,
+    "partidas_ganadas": 22,
+    "estrellas_totales": 11,
+    "titulo": "",
+    "esta_baneado": false,
+    "acepto_terminos": false,
+    "fecha_registro": "2026-03-01T20:50:12.146Z",
+    "fecha_ultimo_login": null,
+    "is_active": true,
+    "is_staff": true,
+    "nivel_maximo_desbloqueado": 4,
+    "personaje_seleccionado": 2,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "game.usuario",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$aWwPjdT3ASW2UMvDdV9wFE$8Qub/TkWIqDSqsB8+UgzeZZyyAFF5EvXyMDxQC9yHNA=",
+    "last_login": "2026-03-02T21:06:24.724Z",
+    "is_superuser": false,
+    "id_rol": 2,
+    "id_pais": 1,
+    "username": "shifu",
+    "email": "shifu@gmail.com",
+    "nombre_mostrar": "shifu",
+    "biografia": "",
+    "xp_total": 0,
+    "nivel_cuenta": 1,
+    "partidas_jugadas": 0,
+    "partidas_ganadas": 0,
+    "estrellas_totales": 0,
+    "titulo": "",
+    "esta_baneado": false,
+    "acepto_terminos": true,
+    "fecha_registro": "2026-03-02T21:06:24.634Z",
+    "fecha_ultimo_login": null,
+    "is_active": true,
+    "is_staff": false,
+    "nivel_maximo_desbloqueado": 1,
+    "personaje_seleccionado": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "game.usuario",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$FwqkAArHBJcNaVSrFDlZB9$NhEsMSvTja+wkp/IBJsvViqXaFpi/g5hihwXl6ea2WE=",
+    "last_login": "2026-03-04T00:29:16.421Z",
+    "is_superuser": false,
+    "id_rol": 2,
+    "id_pais": 1,
+    "username": "Robertito",
+    "email": "Robertito2026@gmail.com",
+    "nombre_mostrar": "Robertito",
+    "biografia": "Hola",
+    "xp_total": 0,
+    "nivel_cuenta": 1,
+    "partidas_jugadas": 0,
+    "partidas_ganadas": 0,
+    "estrellas_totales": 0,
+    "titulo": "",
+    "esta_baneado": false,
+    "acepto_terminos": true,
+    "fecha_registro": "2026-03-04T00:29:16.360Z",
+    "fecha_ultimo_login": null,
+    "is_active": true,
+    "is_staff": false,
+    "nivel_maximo_desbloqueado": 1,
+    "personaje_seleccionado": 2,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "game.configuracionusuario",
+  "pk": 1,
+  "fields": {
+    "id_usuario": 2,
+    "volumen_general": 80,
+    "dificultad_default": "NORMAL",
+    "perfil_visible": "PUBLICO",
+    "mostrar_en_ranking": true,
+    "notificaciones_email": true
+  }
+},
+{
+  "model": "game.configuracionusuario",
+  "pk": 2,
+  "fields": {
+    "id_usuario": 3,
+    "volumen_general": 80,
+    "dificultad_default": "NORMAL",
+    "perfil_visible": "PUBLICO",
+    "mostrar_en_ranking": true,
+    "notificaciones_email": true
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 1,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 1,
+    "resultado": "VICTORIA",
+    "score": 165,
+    "xp_ganada": 665,
+    "tiempo_segundos": 5,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:02:06.506Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 2,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 2,
+    "resultado": "VICTORIA",
+    "score": 215,
+    "xp_ganada": 715,
+    "tiempo_segundos": 4,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:05:36.952Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 3,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 1,
+    "resultado": "VICTORIA",
+    "score": 140,
+    "xp_ganada": 640,
+    "tiempo_segundos": 6,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:18:38.577Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 4,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 2,
+    "resultado": "VICTORIA",
+    "score": 258,
+    "xp_ganada": 758,
+    "tiempo_segundos": 4,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:18:48.249Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 5,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 3,
+    "resultado": "VICTORIA",
+    "score": 177,
+    "xp_ganada": 677,
+    "tiempo_segundos": 5,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:19:17.934Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 6,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 3,
+    "resultado": "VICTORIA",
+    "score": 109,
+    "xp_ganada": 609,
+    "tiempo_segundos": 6,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:19:31.818Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 7,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 3,
+    "nivel_id": 2,
+    "resultado": "VICTORIA",
+    "score": 154,
+    "xp_ganada": 654,
+    "tiempo_segundos": 8,
+    "estrellas": 0,
+    "fecha": "2026-03-08T01:27:36.197Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 8,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 2,
+    "nivel_id": 1,
+    "resultado": "VICTORIA",
+    "score": 145,
+    "xp_ganada": 645,
+    "tiempo_segundos": 8,
+    "estrellas": 0,
+    "fecha": "2026-03-08T02:28:23.469Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 9,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 2,
+    "nivel_id": 1,
+    "resultado": "VICTORIA",
+    "score": 161,
+    "xp_ganada": 661,
+    "tiempo_segundos": 5,
+    "estrellas": 1,
+    "fecha": "2026-03-08T02:32:55.631Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 10,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 1,
+    "nivel_id": 1,
+    "resultado": "VICTORIA",
+    "score": 158,
+    "xp_ganada": 658,
+    "tiempo_segundos": 7,
+    "estrellas": 1,
+    "fecha": "2026-03-08T02:54:18.489Z"
+  }
+},
+{
+  "model": "game.partida",
+  "pk": 11,
+  "fields": {
+    "id_usuario": 1,
+    "id_personaje": 1,
+    "nivel_id": 2,
+    "resultado": "VICTORIA",
+    "score": 171,
+    "xp_ganada": 671,
+    "tiempo_segundos": 5,
+    "estrellas": 1,
+    "fecha": "2026-03-08T02:54:39.149Z"
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 1,
+  "fields": {
+    "clave": "primer_victoria",
+    "nombre": "Primera Sangre",
+    "descripcion": "Gana tu primera batalla",
+    "icono": "ΓÜö∩╕Å",
+    "xp_recompensa": 100
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 2,
+  "fields": {
+    "clave": "nivel_3",
+    "nombre": "Guerrero",
+    "descripcion": "Alcanza el nivel 3 de cuenta",
+    "icono": "≡ƒùí∩╕Å",
+    "xp_recompensa": 200
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 3,
+  "fields": {
+    "clave": "nivel_5",
+    "nombre": "Leyenda",
+    "descripcion": "Alcanza el nivel 5 de cuenta",
+    "icono": "≡ƒææ",
+    "xp_recompensa": 500
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 4,
+  "fields": {
+    "clave": "racha_3",
+    "nombre": "En Llamas",
+    "descripcion": "Gana 3 partidas seguidas",
+    "icono": "≡ƒöÑ",
+    "xp_recompensa": 300
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 5,
+  "fields": {
+    "clave": "victorias_10",
+    "nombre": "Veterano",
+    "descripcion": "Acumula 10 victorias",
+    "icono": "≡ƒÅå",
+    "xp_recompensa": 500
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 6,
+  "fields": {
+    "clave": "victorias_25",
+    "nombre": "Imparable",
+    "descripcion": "Acumula 25 victorias",
+    "icono": "≡ƒÆÇ",
+    "xp_recompensa": 1000
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 7,
+  "fields": {
+    "clave": "nivel_5_juego",
+    "nombre": "Conquistador",
+    "descripcion": "Derrota al Castillo del Drag├│n",
+    "icono": "≡ƒÉë",
+    "xp_recompensa": 1000
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 8,
+  "fields": {
+    "clave": "estrellas_15",
+    "nombre": "Perfeccionista",
+    "descripcion": "Acumula 15 estrellas totales",
+    "icono": "Γ¡É",
+    "xp_recompensa": 400
+  }
+},
+{
+  "model": "game.logro",
+  "pk": 9,
+  "fields": {
+    "clave": "velocista",
+    "nombre": "Velocista",
+    "descripcion": "Gana una batalla en menos de 30 segundos",
+    "icono": "ΓÜí",
+    "xp_recompensa": 250
+  }
+},
+{
+  "model": "game.logrousuario",
+  "pk": 1,
+  "fields": {
+    "id_usuario": 1,
+    "id_logro": 5,
+    "fecha_obtenido": "2026-03-08T02:32:55.647Z"
+  }
+},
+{
+  "model": "game.logrousuario",
+  "pk": 2,
+  "fields": {
+    "id_usuario": 1,
+    "id_logro": 2,
+    "fecha_obtenido": "2026-03-08T02:32:55.655Z"
+  }
+},
+{
+  "model": "game.logrousuario",
+  "pk": 3,
+  "fields": {
+    "id_usuario": 1,
+    "id_logro": 3,
+    "fecha_obtenido": "2026-03-08T02:32:55.659Z"
+  }
+},
+{
+  "model": "game.logrousuario",
+  "pk": 4,
+  "fields": {
+    "id_usuario": 1,
+    "id_logro": 9,
+    "fecha_obtenido": "2026-03-08T02:32:55.663Z"
+  }
+},
+{
+  "model": "game.logrousuario",
+  "pk": 5,
+  "fields": {
+    "id_usuario": 1,
+    "id_logro": 4,
+    "fecha_obtenido": "2026-03-08T02:32:55.671Z"
+  }
+}
+]

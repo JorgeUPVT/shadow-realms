@@ -1,0 +1,138 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Clasificaciones - Shadow Realms Admin</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body class="admin-page">
+
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <h2>⚔️ ADMIN</h2>
+      <p>Shadow Realms</p>
+    </div>
+    <nav class="admin-nav">
+      <a href="{% url 'admin_dashboard' %}" class="admin-nav-item">
+        <span class="nav-icon">📊</span><span>Dashboard</span>
+      </a>
+      <a href="{% url 'admin_users' %}" class="admin-nav-item">
+        <span class="nav-icon">👥</span><span>Usuarios</span>
+      </a>
+      <a href="{% url 'admin_leaderboard' %}" class="admin-nav-item active">
+        <span class="nav-icon">🏆</span><span>Clasificaciones</span>
+      </a>
+      <a href="{% url 'admin_reports' %}" class="admin-nav-item">
+        <span class="nav-icon">📈</span><span>Reportes</span>
+      </a>
+      <a href="{% url 'logout' %}" class="admin-nav-item logout">
+        <span class="nav-icon">🚪</span><span>Salir</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="admin-content">
+    <header class="admin-header">
+      <div class="admin-header-left">
+        <h1>Gestión de Clasificaciones</h1>
+        <p class="admin-breadcrumb">Inicio / Clasificaciones</p>
+      </div>
+      <div class="admin-header-right">
+        <span class="admin-user">{{ request.user.nombre_mostrar|default:request.user.username }}</span>
+        <div class="admin-avatar">👤</div>
+      </div>
+    </header>
+
+    <div class="admin-card">
+      <div class="filters-section">
+        <div class="filter-controls">
+          <select class="filter-select">
+            <option value="global">Clasificación Global</option>
+            <option value="level1">Nivel 1 - Pantano</option>
+            <option value="level2">Nivel 2 - Montañas</option>
+            <option value="level3">Nivel 3 - Bosque</option>
+            <option value="level4">Nivel 4 - Ruinas</option>
+            <option value="level5">Nivel 5 - Castillo</option>
+          </select>
+          <select class="filter-select">
+            <option value="alltime">Todo el Tiempo</option>
+            <option value="monthly">Este Mes</option>
+            <option value="weekly">Esta Semana</option>
+            <option value="daily">Hoy</option>
+          </select>
+          <button class="btn btn-outline">Resetear Rankings</button>
+          <button class="btn btn-primary">Exportar Datos</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <div class="card-header">
+        <h3>Top 100 - Clasificación Global</h3>
+      </div>
+      <div class="card-body">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Posición</th>
+              <th>Usuario</th>
+              <th>Personaje</th>
+              <th>Nivel</th>
+              <th>Puntuación Total</th>
+              <th>Victorias</th>
+              <th>País</th>
+              <th>Última Actividad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for jugador in top_jugadores %}
+            <tr {% if forloop.counter <= 3 %}class="rank-{{ forloop.counter }}"{% endif %}>
+              <td>
+                {% if forloop.counter == 1 %}
+                  <div class="rank-badge gold">🥇 {{ forloop.counter }}</div>
+                {% elif forloop.counter == 2 %}
+                  <div class="rank-badge silver">🥈 {{ forloop.counter }}</div>
+                {% elif forloop.counter == 3 %}
+                  <div class="rank-badge bronze">🥉 {{ forloop.counter }}</div>
+                {% else %}
+                  {{ forloop.counter }}
+                {% endif %}
+              </td>
+              <td>
+                <div class="user-cell">
+                  <span class="user-avatar-mini">👤</span>
+                  <span>{{ jugador.nombre_mostrar|default:jugador.username }}</span>
+                </div>
+              </td>
+              <td>{{ jugador.personaje_seleccionado.nombre|default:"—" }}</td>
+              <td>{{ jugador.nivel_cuenta|default:"—" }}</td>
+              <td class="score-highlight">{{ jugador.xp_total|default:"0" }}</td>
+              <td>{{ jugador.partidas_ganadas|default:"0" }}</td>
+              <td>{% if jugador.id_pais %}{{ jugador.id_pais.emoji_bandera }} {{ jugador.id_pais.nombre }}{% else %}🌍{% endif %}</td>
+              <td>{{ jugador.fecha_registro|timesince }} atrás</td>
+              <td>
+                <button class="btn-action-sm" title="Ver Detalles">👁️</button>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="9" style="text-align:center;">No hay clasificaciones aún.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="pagination">
+          <button class="btn-page" disabled>« Anterior</button>
+          <button class="btn-page active">1</button>
+          <button class="btn-page">Siguiente »</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

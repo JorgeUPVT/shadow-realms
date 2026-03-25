@@ -1,0 +1,231 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuración - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="settings-page">
+    <header class="game-header">
+      <div class="game-nav">
+        <a href="{% url 'profile' %}" class="btn-back">← Volver al Perfil</a>
+        <div class="logo-small">⚔️ SHADOW REALMS</div>
+      </div>
+    </header>
+
+    <main class="settings-content">
+      <div class="container">
+        {% if messages %} {% for msg in messages %}
+        <div
+          class="alert {% if msg.tags == 'success' %}alert-success{% else %}alert-error{% endif %}"
+        >
+          {{ msg }}
+        </div>
+        {% endfor %} {% endif %}
+
+        <div class="page-header">
+          <h1 class="page-title">⚙️ Configuración</h1>
+          <p class="page-subtitle">Personaliza tu experiencia de juego</p>
+        </div>
+
+        <div class="settings-tabs">
+          <button
+            class="tab-button active"
+            onclick="showSettingsTab('account')"
+          >
+            Cuenta
+          </button>
+          <button class="tab-button" onclick="showSettingsTab('game')">
+            Juego
+          </button>
+          <button class="tab-button" onclick="showSettingsTab('audio')">
+            Audio
+          </button>
+          <button class="tab-button" onclick="showSettingsTab('privacy')">
+            Privacidad
+          </button>
+        </div>
+
+        <!-- Tab Cuenta -->
+        <div class="tab-content active" id="account">
+          <div class="section-card">
+            <h2 class="section-title">Información de la Cuenta</h2>
+            <form
+              class="settings-form"
+              method="POST"
+              action="{% url 'settings' %}"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="accion" value="actualizar_perfil" />
+
+              <div class="form-group">
+                <label for="username">Nombre de Usuario</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value="{{ usuario.username }}"
+                  readonly
+                />
+                <small class="form-help">No se puede cambiar</small>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="{{ usuario.email }}"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="country">País</label>
+                <select id="country" name="id_pais" required>
+                  {% for pais in paises %}
+                  <option
+                    value="{{ pais.id }}"
+                    {%
+                    if
+                    usuario.id_pais=""
+                    ="pais"
+                    %}selected{%
+                    endif
+                    %}
+                  >
+                    {{ pais.emoji_bandera }} {{ pais.nombre }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="bio">Biografía</label>
+                <textarea
+                  id="bio"
+                  name="bio"
+                  rows="4"
+                  maxlength="200"
+                  placeholder="Cuéntanos algo sobre ti..."
+                >
+{{ usuario.biografia }}</textarea
+                >
+                <small class="form-help">Máximo 200 caracteres</small>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+              </button>
+            </form>
+          </div>
+
+          <div class="section-card">
+            <h2 class="section-title">Cambiar Contraseña</h2>
+            <form
+              class="settings-form"
+              method="POST"
+              action="{% url 'settings' %}"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="accion" value="cambiar_password" />
+
+              <div class="form-group">
+                <label for="current_password">Contraseña Actual</label>
+                <input
+                  type="password"
+                  id="current_password"
+                  name="current_password"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="new_password">Nueva Contraseña</label>
+                <input
+                  type="password"
+                  id="new_password"
+                  name="new_password"
+                  required
+                  minlength="10"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="confirm_password">Confirmar Nueva Contraseña</label>
+                <input
+                  type="password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Cambiar Contraseña
+              </button>
+            </form>
+          </div>
+
+          <div class="section-card danger-zone">
+            <h2 class="section-title">Zona Peligrosa</h2>
+            <div class="danger-actions">
+              <div class="danger-item">
+                <div>
+                  <h4>Eliminar Cuenta</h4>
+                  <p>Esta acción es permanente y no se puede deshacer</p>
+                </div>
+                <button
+                  class="btn btn-danger"
+                  disabled
+                  title="Función no implementada aún"
+                >
+                  Eliminar Cuenta
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs placeholder (sin funcionalidad por ahora) -->
+        <div class="tab-content" id="game" style="display: none">
+          <div class="section-card">
+            <h2 class="section-title">Preferencias de Juego</h2>
+            <p>Próximamente disponible...</p>
+          </div>
+        </div>
+
+        <div class="tab-content" id="audio" style="display: none">
+          <div class="section-card">
+            <h2 class="section-title">Configuración de Audio</h2>
+            <p>Próximamente disponible...</p>
+          </div>
+        </div>
+
+        <div class="tab-content" id="privacy" style="display: none">
+          <div class="section-card">
+            <h2 class="section-title">Configuración de Privacidad</h2>
+            <p>Próximamente disponible...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      function showSettingsTab(tabName) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((tab) => (tab.style.display = "none"));
+        document
+          .querySelectorAll(".tab-button")
+          .forEach((btn) => btn.classList.remove("active"));
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

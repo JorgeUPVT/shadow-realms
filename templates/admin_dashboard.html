@@ -1,0 +1,168 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administración - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <h2>⚔️ ADMIN</h2>
+        <p>Shadow Realms</p>
+      </div>
+      <nav class="admin-nav">
+        <a href="{% url 'admin_dashboard' %}" class="admin-nav-item active">
+          <span class="nav-icon">📊</span><span>Dashboard</span>
+        </a>
+        <a href="{% url 'admin_users' %}" class="admin-nav-item">
+          <span class="nav-icon">👥</span><span>Usuarios</span>
+        </a>
+        <a href="{% url 'admin_leaderboard' %}" class="admin-nav-item">
+          <span class="nav-icon">🏆</span><span>Clasificaciones</span>
+        </a>
+        <a href="{% url 'admin_reports' %}" class="admin-nav-item">
+          <span class="nav-icon">📈</span><span>Reportes</span>
+        </a>
+        <a href="{% url 'logout' %}" class="admin-nav-item logout">
+          <span class="nav-icon">🚪</span><span>Salir</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-header">
+        <div class="admin-header-left">
+          <h1>Dashboard</h1>
+          <p class="admin-breadcrumb">Inicio / Dashboard</p>
+        </div>
+        <div class="admin-header-right">
+          <span class="admin-user">{{ admin_user }}</span>
+          <div class="admin-avatar">👤</div>
+        </div>
+      </header>
+
+      <div class="admin-stats-grid">
+        <div class="stat-card-admin">
+          <div class="stat-card-icon users">👥</div>
+          <div class="stat-card-info">
+            <h3>Total Usuarios</h3>
+            <p class="stat-number">{{ total_usuarios|default:"0" }}</p>
+            <span class="stat-change positive"
+              >+{{ usuarios_esta_semana }} esta semana</span
+            >
+          </div>
+        </div>
+
+        <div class="stat-card-admin">
+          <div class="stat-card-icon games">🎮</div>
+          <div class="stat-card-info">
+            <h3>Partidas Jugadas</h3>
+            <p class="stat-number">{{ partidas_totales|default:"0" }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card-admin">
+          <div class="stat-card-icon active">🟢</div>
+          <div class="stat-card-info">
+            <h3>Usuarios Activos</h3>
+            <p class="stat-number">{{ usuarios_activos|default:"0" }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card-admin">
+          <div class="stat-card-icon revenue">💰</div>
+          <div class="stat-card-info">
+            <h3>Nivel Promedio</h3>
+            <p class="stat-number">{{ nivel_promedio|default:"0" }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-charts-row">
+        <div class="admin-card">
+          <div class="card-header">
+            <h3>Nuevos Usuarios (Últimos 7 días)</h3>
+          </div>
+          <div class="card-body">
+            <div class="ascii-chart">
+              {% for item in grafico_data %}
+              <div class="chart-bar" style="height: {{ item.1 }}%;">
+                <span class="bar-value">{{ item.0 }}</span>
+              </div>
+              {% empty %}
+              <p>Sin datos recientes</p>
+              {% endfor %}
+            </div>
+            <div class="chart-labels">
+              <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span
+              ><span>Vie</span><span>Sáb</span><span>Dom</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="card-header">
+            <h3>Personajes Más Populares</h3>
+          </div>
+          <div class="card-body">
+            <div class="character-stats">
+              {% for item in personajes_populares %}
+              <div class="character-stat-item">
+                <div class="character-stat-info">
+                  <span class="char-icon">⚔️</span>
+                  <span class="char-name">{{ item.nombre }}</span>
+                </div>
+                <div class="character-stat-bar">
+                  <div
+                    class="stat-bar-fill"
+                    style="width: {{ item.porcentaje }}%;"
+                  ></div>
+                  <span class="stat-percentage">{{ item.porcentaje }}%</span>
+                </div>
+              </div>
+              {% empty %}
+              <p>Aún no hay personajes seleccionados.</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-header">
+          <h3>Actividad Reciente</h3>
+        </div>
+        <div class="card-body">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Fecha Registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in actividad_reciente %}
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar-mini">👤</span>
+                    <span>{{ u.nombre_mostrar|default:u.username }}</span>
+                  </div>
+                </td>
+                <td>{{ u.fecha_registro|timesince }} atrás</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="2">No hay actividad reciente</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

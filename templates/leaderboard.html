@@ -1,0 +1,237 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabla de Clasificación - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="leaderboard-page">
+    <!-- Header -->
+    <header class="game-header">
+      <div class="game-nav">
+        <a href="{% url 'level_selection' %}" class="btn-back"
+          >← Volver al Mapa</a
+        >
+        <div class="logo-small">⚔️ SHADOW REALMS</div>
+        <a href="{% url 'profile' %}" class="btn-profile">Mi Perfil</a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="leaderboard-content">
+      <div class="container">
+        <!-- Título -->
+        <div class="page-header">
+          <h1 class="page-title">🏆 Tabla de Clasificación</h1>
+          <p class="page-subtitle">Los mejores jugadores de Shadow Realms</p>
+        </div>
+
+        <!-- Filtros (estáticos por ahora – puedes hacerlos funcionales con GET params después) -->
+        <div class="leaderboard-filters">
+          <div class="filter-group">
+            <label>Categoría:</label>
+            <select class="filter-select" id="categoryFilter">
+              <option value="global">Puntuación Global</option>
+              <option value="level1">Nivel 1 - Pantano</option>
+              <option value="level2">Nivel 2 - Montañas</option>
+              <option value="level3">Nivel 3 - Bosque</option>
+              <option value="level4">Nivel 4 - Ruinas</option>
+              <option value="level5">Nivel 5 - Castillo</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Periodo:</label>
+            <select class="filter-select" id="periodFilter">
+              <option value="alltime">Todo el Tiempo</option>
+              <option value="monthly">Este Mes</option>
+              <option value="weekly">Esta Semana</option>
+              <option value="daily">Hoy</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Región:</label>
+            <select class="filter-select" id="regionFilter">
+              <option value="global">Global</option>
+              <option value="MX">México</option>
+              <option value="US">Estados Unidos</option>
+              <option value="ES">España</option>
+              <option value="LATAM">Latinoamérica</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Podio dinámico (Top 3) -->
+        <div class="podium">
+          {% if top3 %}
+          <!-- 1er lugar (índice 0) -->
+          {% with ganador=top3.0 %}
+          <div class="podium-place first">
+            <div class="podium-crown">👑</div>
+            <div class="podium-rank">1</div>
+            <div class="podium-avatar">
+              {{ ganador.personaje_seleccionado|default:"⚔️" }}
+            </div>
+            <div class="podium-name">
+              {{ ganador.nombre_mostrar|default:ganador.username }}
+            </div>
+            <div class="podium-flag">
+              {{ ganador.id_pais.emoji_bandera|default:"🌍" }}
+            </div>
+            <div class="podium-score">
+              {{ ganador.xp_total|default:0|floatformat:"0" }}
+            </div>
+            <div class="podium-medal">🥇</div>
+          </div>
+          {% endwith %}
+
+          <!-- 2do lugar (índice 1) -->
+          {% if top3.1 %} {% with segundo=top3.1 %}
+          <div class="podium-place second">
+            <div class="podium-rank">2</div>
+            <div class="podium-avatar">
+              {{ segundo.personaje_seleccionado|default:"🔮" }}
+            </div>
+            <div class="podium-name">
+              {{ segundo.nombre_mostrar|default:segundo.username }}
+            </div>
+            <div class="podium-flag">
+              {{ segundo.id_pais.emoji_bandera|default:"🌍" }}
+            </div>
+            <div class="podium-score">
+              {{ segundo.xp_total|default:0|floatformat:"0" }}
+            </div>
+            <div class="podium-medal">🥈</div>
+          </div>
+          {% endwith %} {% endif %}
+
+          <!-- 3er lugar (índice 2) -->
+          {% if top3.2 %} {% with tercero=top3.2 %}
+          <div class="podium-place third">
+            <div class="podium-rank">3</div>
+            <div class="podium-avatar">
+              {{ tercero.personaje_seleccionado|default:"🏹" }}
+            </div>
+            <div class="podium-name">
+              {{ tercero.nombre_mostrar|default:tercero.username }}
+            </div>
+            <div class="podium-flag">
+              {{ tercero.id_pais.emoji_bandera|default:"🌍" }}
+            </div>
+            <div class="podium-score">
+              {{ tercero.xp_total|default:0|floatformat:"0" }}
+            </div>
+            <div class="podium-medal">🥉</div>
+          </div>
+          {% endwith %} {% endif %} {% else %}
+          <p>Aún no hay jugadores suficientes para el podio.</p>
+          {% endif %}
+        </div>
+        <!-- Tabla de Clasificación -->
+        <div class="section-card">
+          <h2 class="section-title">Ranking Completo</h2>
+
+          {% if jugadores %}
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th class="rank-col">Rango</th>
+                <th class="player-col">Jugador</th>
+                <th class="character-col">Personaje</th>
+                <th class="level-col">Nivel</th>
+                <th class="score-col">Puntuación</th>
+                <th class="wins-col">Victorias</th>
+                <th class="country-col">País</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for jugador in jugadores %}
+              <tr class="{% if jugador == request.user %}your-rank{% endif %}">
+                <td class="rank-col">{{ forloop.counter }}</td>
+                <td class="player-col">
+                  <div class="player-info">
+                    <span class="player-name">
+                      {{ jugador.nombre_mostrar|default:jugador.username }}
+                    </span>
+                    {% if jugador == request.user %}
+                    <span class="badge-you">TÚ</span>
+                    {% endif %}
+                  </div>
+                </td>
+                <td class="character-col">
+                  {{ jugador.personaje_seleccionado|default:"—" }}
+                </td>
+                <td class="level-col">
+                  {{ jugador.nivel_cuenta|default:"—" }}
+                </td>
+                <td class="score-col">
+                  {{ jugador.xp_total|default:0|floatformat:"0" }}
+                </td>
+                <td class="wins-col">
+                  {{ jugador.partidas_ganadas|default:0 }}
+                </td>
+                <td class="country-col">
+                  {% if jugador.id_pais %} {{ jugador.id_pais.emoji_bandera }}
+                  {{ jugador.id_pais.nombre }} {% else %} — {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <!-- Paginación placeholder -->
+          <div class="pagination">
+            <button class="btn-page" disabled>« Anterior</button>
+            <button class="btn-page active">1</button>
+            <button class="btn-page">2</button>
+            <button class="btn-page">3</button>
+            <button class="btn-page">...</button>
+            <button class="btn-page">10</button>
+            <button class="btn-page">Siguiente »</button>
+          </div>
+          {% else %}
+          <p class="no-data">No hay jugadores en el ranking todavía.</p>
+          {% endif %}
+        </div>
+
+        <!-- Tu posición destacada -->
+        <div class="your-position-card">
+          <h3>Tu Posición</h3>
+          <div class="position-details">
+            <div class="position-stat">
+              <span class="position-label">Ranking Global:</span>
+              <span class="position-value">
+                {% if tu_posicion %} #{{ tu_posicion }} {% else %} Fuera del Top
+                20 {% endif %}
+              </span>
+            </div>
+            <div class="position-stat">
+              <span class="position-label">Puntuación:</span>
+              <span class="position-value"
+                >{{ request.user.xp_total|default:0|floatformat:"0" }}</span
+              >
+            </div>
+            <div class="position-stat">
+              <span class="position-label">Victorias:</span>
+              <span class="position-value"
+                >{{ request.user.partidas_ganadas|default:0 }}</span
+              >
+            </div>
+            <div class="position-stat">
+              <span class="position-label">Para Top 10:</span>
+              <span class="position-value">¡Sigue jugando!</span>
+            </div>
+          </div>
+          <a href="{% url 'level_selection' %}" class="btn btn-primary"
+            >Jugar para Subir</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

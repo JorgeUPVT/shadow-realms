@@ -1,0 +1,134 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seleccion de Personaje - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="selection-page">
+    <!-- Header -->
+    <header class="game-header">
+      <div class="game-nav">
+        <a href="{% url 'logout' %}" class="btn-back">Salir</a>
+        <div class="user-info">
+          <span class="username">{{ request.user.username }}</span>
+          <span class="level">Nivel {{ request.user.nivel_cuenta }}</span>
+        </div>
+        <div class="nav-links-game">
+          <a href="{% url 'leaderboard' %}" class="btn-profile">Ranking</a>
+          <a href="{% url 'profile' %}" class="btn-profile">Mi Perfil</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="character-selection">
+      <div class="selection-header">
+        <h1 class="page-title">Elige tu Heroe</h1>
+        <p class="page-subtitle">
+          Cada heroe tiene habilidades unicas. Elige sabiamente.
+        </p>
+      </div>
+
+      <div class="characters-grid-select">
+        {% for personaje in personajes %}
+        <div class="character-card" data-character="{{ personaje.sprite_key }}">
+          <div class="character-card-inner">
+            <div class="character-portrait">
+              <div class="character-icon">{{personaje.clase}}</div>
+            </div>
+
+            <div class="character-info">
+              <h3 class="character-name">{{ personaje.nombre }}</h3>
+              <p class="character-class">{{ personaje.clase }}</p>
+
+              <div class="character-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Fuerza</span>
+                  <div class="stat-bar">
+                    <div
+                      class="stat-fill"
+                      style="width: {{ personaje.stat_fuerza }}0%"
+                    ></div>
+                  </div>
+                  <span class="stat-value">{{ personaje.stat_fuerza }}/10</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Velocidad</span>
+                  <div class="stat-bar">
+                    <div
+                      class="stat-fill"
+                      style="width: {{ personaje.stat_velocidad }}0%"
+                    ></div>
+                  </div>
+                  <span class="stat-value"
+                    >{{ personaje.stat_velocidad }}/10</span
+                  >
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Magia</span>
+                  <div class="stat-bar">
+                    <div
+                      class="stat-fill"
+                      style="width: {{ personaje.stat_magia }}0%"
+                    ></div>
+                  </div>
+                  <span class="stat-value">{{ personaje.stat_magia }}/10</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Defensa</span>
+                  <div class="stat-bar">
+                    <div
+                      class="stat-fill"
+                      style="width: {{ personaje.stat_defensa }}0%"
+                    ></div>
+                  </div>
+                  <span class="stat-value"
+                    >{{ personaje.stat_defensa }}/10</span
+                  >
+                </div>
+              </div>
+
+              <p class="character-description">{{ personaje.descripcion }}</p>
+
+              <div class="companion-info">
+                <span class="companion-label">Companero:</span>
+                <strong>{{ personaje.companero }}</strong>
+              </div>
+
+              <button
+                class="btn btn-select"
+                onclick="selectCharacter('{{ personaje.sprite_key }}', {{ personaje.id }})"
+              >
+                Seleccionar
+              </button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      function selectCharacter(spriteKey, personajeId) {
+        fetch("{% url 'select_character' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": "{{ csrf_token }}",
+          },
+          body: "personaje_id=" + personajeId,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.ok) {
+              window.location.href = "{% url 'level_selection' %}";
+            }
+          });
+      }
+    </script>
+  </body>
+</html>

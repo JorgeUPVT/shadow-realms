@@ -1,0 +1,216 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selección de Nivel - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="level-page">
+    <header class="game-header">
+      <div class="game-nav">
+        <a href="{% url 'character_selection' %}" class="btn-back">← Cambiar Héroe</a>
+        <div class="user-info">
+          <span class="username">{{ request.user.username }}</span>
+          <span class="character-badge">Nivel {{ request.user.nivel_cuenta }}</span>
+        </div>
+        <div class="nav-links-game">
+          <a href="{% url 'leaderboard' %}" class="btn-profile">🏆 Ranking</a>
+          <a href="{% url 'profile' %}" class="btn-profile">Mi Perfil</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="level-selection">
+      <div class="selection-header">
+        <h1 class="page-title">Elige tu Destino</h1>
+        <p class="page-subtitle">Cada nivel es más peligroso que el anterior. ¿Estás preparado?</p>
+      </div>
+
+      <div class="levels-map">
+
+        <!-- NIVEL 1 -->
+        <div class="level-node {% if nivel_desbloqueado >= 1 %}unlocked{% else %}locked{% endif %}" data-level="1">
+          <div class="level-card">
+            <div class="level-image">
+              <div class="level-icon">🐸</div>
+              {% if nivel_desbloqueado < 1 %}<div class="lock-overlay">🔒</div>{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-header">
+                <span class="level-number">Nivel 1</span>
+                <div class="level-stars"><span class="star filled">⭐</span><span class="star filled">⭐</span><span class="star filled">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+              </div>
+              <h3 class="level-name">Pantano Maldito</h3>
+              <p class="level-description">Un pantano tóxico donde acecha Vorgath el Sapo Hechicero. Cuidado con las aguas envenenadas.</p>
+              <div class="level-boss"><span class="boss-label">Boss:</span> <strong>Vorgath el Sapo Hechicero</strong></div>
+              <div class="level-difficulty"><span class="difficulty-label">Dificultad:</span> ⭐☆☆☆☆</div>
+              <div class="level-rewards">
+                <span class="reward-label">Recompensas:</span>
+                <div class="rewards-list">
+                  <span class="reward-item">🏆 500 XP</span>
+                  <span class="reward-item">💎 Gema del Pantano</span>
+                </div>
+              </div>
+              {% if nivel_desbloqueado >= 1 %}
+                <button class="btn btn-play" onclick="playLevel(1)">▶️ Jugar Nivel</button>
+              {% else %}
+                <button class="btn btn-play" disabled>🔒 Bloqueado</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="level-connector {% if nivel_desbloqueado < 2 %}locked-connector{% endif %}"></div>
+
+        <!-- NIVEL 2 -->
+        <div class="level-node {% if nivel_desbloqueado >= 2 %}unlocked{% else %}locked{% endif %}" data-level="2">
+          <div class="level-card">
+            <div class="level-image">
+              <div class="level-icon">🐻</div>
+              {% if nivel_desbloqueado < 2 %}<div class="lock-overlay">🔒</div>{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-header">
+                <span class="level-number">Nivel 2</span>
+                <div class="level-stars"><span class="star filled">⭐</span><span class="star filled">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+              </div>
+              <h3 class="level-name">Montañas Congeladas</h3>
+              <p class="level-description">Picos helados donde el frío puede matarte antes que los enemigos. Enfrenta a Ursagor el Oso Polar Blindado.</p>
+              <div class="level-boss"><span class="boss-label">Boss:</span> <strong>Ursagor el Oso Polar Blindado</strong></div>
+              <div class="level-difficulty"><span class="difficulty-label">Dificultad:</span> ⭐⭐☆☆☆</div>
+              <div class="level-rewards">
+                <span class="reward-label">Recompensas:</span>
+                <div class="rewards-list">
+                  <span class="reward-item">🏆 1,000 XP</span>
+                  <span class="reward-item">❄️ Corazón de Hielo</span>
+                </div>
+              </div>
+              {% if nivel_desbloqueado >= 2 %}
+                <button class="btn btn-play" onclick="playLevel(2)">▶️ Jugar Nivel</button>
+              {% else %}
+                <div class="level-requirement"><span class="locked-text">🔒 Derrota a Vorgath para desbloquear</span></div>
+                <button class="btn btn-play" disabled>🔒 Bloqueado</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="level-connector {% if nivel_desbloqueado < 3 %}locked-connector{% endif %}"></div>
+
+        <!-- NIVEL 3 -->
+        <div class="level-node {% if nivel_desbloqueado >= 3 %}unlocked{% else %}locked{% endif %}" data-level="3">
+          <div class="level-card">
+            <div class="level-image">
+              <div class="level-icon">{% if nivel_desbloqueado >= 3 %}🌑{% else %}👤{% endif %}</div>
+              {% if nivel_desbloqueado < 3 %}<div class="lock-overlay">🔒</div>{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-header">
+                <span class="level-number">Nivel 3</span>
+                <div class="level-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+              </div>
+              <h3 class="level-name">Bosque de Sombras</h3>
+              <p class="level-description">Un bosque donde la oscuridad es absoluta. La misteriosa Nyx, la Sombra Viviente, te acecha.</p>
+              <div class="level-boss"><span class="boss-label">Boss:</span> <strong>Nyx la Sombra Viviente</strong></div>
+              <div class="level-difficulty"><span class="difficulty-label">Dificultad:</span> ⭐⭐⭐☆☆</div>
+              <div class="level-rewards">
+                <span class="reward-label">Recompensas:</span>
+                <div class="rewards-list">
+                  <span class="reward-item">🏆 1,500 XP</span>
+                  <span class="reward-item">🌑 Fragmento de Sombra</span>
+                </div>
+              </div>
+              {% if nivel_desbloqueado >= 3 %}
+                <button class="btn btn-play" onclick="playLevel(3)">▶️ Jugar Nivel</button>
+              {% else %}
+                <div class="level-requirement"><span class="locked-text">🔒 Derrota a Ursagor para desbloquear</span></div>
+                <button class="btn btn-play" disabled>🔒 Bloqueado</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="level-connector {% if nivel_desbloqueado < 4 %}locked-connector{% endif %}"></div>
+
+        <!-- NIVEL 4 -->
+        <div class="level-node {% if nivel_desbloqueado >= 4 %}unlocked{% else %}locked{% endif %}" data-level="4">
+          <div class="level-card">
+            <div class="level-image">
+              <div class="level-icon">🐴</div>
+              {% if nivel_desbloqueado < 4 %}<div class="lock-overlay">🔒</div>{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-header">
+                <span class="level-number">Nivel 4</span>
+                <div class="level-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+              </div>
+              <h3 class="level-name">Ruinas Antiguas</h3>
+              <p class="level-description">Restos de una civilización caída bajo cielos sangrientos. Kael el Centauro Oscuro custodia estos vestigios.</p>
+              <div class="level-boss"><span class="boss-label">Boss:</span> <strong>Kael el Centauro Oscuro</strong></div>
+              <div class="level-difficulty"><span class="difficulty-label">Dificultad:</span> ⭐⭐⭐⭐☆</div>
+              <div class="level-rewards">
+                <span class="reward-label">Recompensas:</span>
+                <div class="rewards-list">
+                  <span class="reward-item">🏆 2,500 XP</span>
+                  <span class="reward-item">🗡️ Cuerno del Centauro</span>
+                </div>
+              </div>
+              {% if nivel_desbloqueado >= 4 %}
+                <button class="btn btn-play" onclick="playLevel(4)">▶️ Jugar Nivel</button>
+              {% else %}
+                <div class="level-requirement"><span class="locked-text">🔒 Derrota a Nyx para desbloquear</span></div>
+                <button class="btn btn-play" disabled>🔒 Bloqueado</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="level-connector {% if nivel_desbloqueado < 5 %}locked-connector{% endif %}"></div>
+
+        <!-- NIVEL 5 -->
+        <div class="level-node {% if nivel_desbloqueado >= 5 %}unlocked final{% else %}locked final{% endif %}" data-level="5">
+          <div class="level-card">
+            <div class="level-image">
+              <div class="level-icon">🐉</div>
+              {% if nivel_desbloqueado < 5 %}<div class="lock-overlay">🔒</div>{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-header">
+                <span class="level-number">Nivel 5 - FINAL</span>
+                <div class="level-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
+              </div>
+              <h3 class="level-name">Castillo del Dragón</h3>
+              <p class="level-description">La fortaleza infernal de Malakor. Aquí todo termina. Enfrenta primero a Valdris el Caballero de la Muerte, y luego al mismísimo Señor de las Sombras.</p>
+              <div class="level-boss"><span class="boss-label">Bosses:</span> <strong>Valdris → Malakor</strong></div>
+              <div class="level-difficulty"><span class="difficulty-label">Dificultad:</span> ⭐⭐⭐⭐⭐</div>
+              <div class="level-rewards">
+                <span class="reward-label">Recompensas:</span>
+                <div class="rewards-list">
+                  <span class="reward-item">🏆 5,000 XP</span>
+                  <span class="reward-item">👑 Título: Matador de Dioses</span>
+                  <span class="reward-item">🎖️ Logro Platino</span>
+                </div>
+              </div>
+              {% if nivel_desbloqueado >= 5 %}
+                <button class="btn btn-play btn-final" onclick="playLevel(5)">⚔️ Batalla Final</button>
+              {% else %}
+                <div class="level-requirement"><span class="locked-text">🔒 Derrota a Kael para desbloquear</span></div>
+                <button class="btn btn-play btn-final" disabled>🔒 Batalla Final Bloqueada</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      function playLevel(levelNum) {
+        window.location.href = `/juego/?nivel=${levelNum}`;
+      }
+    </script>
+  </body>
+</html>

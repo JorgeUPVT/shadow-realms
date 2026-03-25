@@ -1,0 +1,139 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-container">
+      <div class="auth-box">
+        <!-- Logo -->
+        <div class="auth-logo">
+          <h1>SHADOW REALMS</h1>
+        </div>
+
+        <!-- Titulo -->
+        <h2 class="auth-title">Crear Cuenta</h2>
+        <p class="auth-subtitle">Unete a la batalla contra la oscuridad</p>
+
+        <!-- Mensajes de error -->
+        {% if messages %} {% for msg in messages %}
+        <div class="error-message">{{ msg }}</div>
+        {% endfor %} {% endif %}
+
+        <!-- Formulario -->
+        <form class="auth-form" action="{% url 'register' %}" method="POST">
+          {% csrf_token %}
+
+          <!-- Nombre de usuario -->
+          <div class="form-group">
+            <label for="username">Nombre de Usuario</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Elige tu nombre de heroe"
+              required
+              minlength="3"
+              maxlength="20"
+            />
+            <small class="form-help">Entre 3 y 20 caracteres</small>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="tu@email.com"
+              required
+            />
+          </div>
+
+          <!-- Pais -->
+          <div class="form-group">
+            <label for="id_pais">Pais</label>
+            <select id="id_pais" name="id_pais" required>
+              <option value="">Selecciona tu pais</option>
+              {% for pais in paises %}
+              <option value="{{ pais.id }}">
+                {{ pais.emoji_bandera }} {{ pais.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Contrasena -->
+          <div class="form-group">
+            <label for="password">Contrasena</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Minimo 8 caracteres"
+              required
+              minlength="8"
+            />
+            <small class="form-help">Minimo 8 caracteres</small>
+          </div>
+
+          <!-- Confirmar contrasena -->
+          <div class="form-group">
+            <label for="confirm_password">Confirmar Contrasena</label>
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Repite tu contrasena"
+              required
+            />
+          </div>
+
+          <!-- Terminos y condiciones -->
+          <div class="form-group checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                name="acepto_terminos"
+                id="acepto_terminos"
+                required
+              />
+              <span>Acepto los <a href="#">terminos y condiciones</a></span>
+            </label>
+          </div>
+
+          <!-- Boton submit -->
+          <button type="submit" class="btn btn-primary btn-block">
+            Crear Mi Cuenta
+          </button>
+        </form>
+
+        <!-- Separador -->
+        <div class="auth-divider">
+          <span>o</span>
+        </div>
+
+        <!-- Login -->
+        <div class="auth-alternate">
+          <p>Ya tienes cuenta?</p>
+          <a href="{% url 'login' %}" class="btn btn-outline">Iniciar Sesion</a>
+        </div>
+
+        <!-- Volver al inicio -->
+        <div class="auth-back">
+          <a href="{% url 'index' %}" class="link-tertiary">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Particulas de fondo -->
+    <div class="particles-bg" id="particlesBg"></div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

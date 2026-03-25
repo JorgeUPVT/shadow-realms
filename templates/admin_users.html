@@ -1,0 +1,165 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Usuarios - Shadow Realms Admin</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <h2>⚔️ ADMIN</h2>
+        <p>Shadow Realms</p>
+      </div>
+      <nav class="admin-nav">
+        <a href="{% url 'admin_dashboard' %}" class="admin-nav-item">
+          <span class="nav-icon">📊</span><span>Dashboard</span>
+        </a>
+        <a href="{% url 'admin_users' %}" class="admin-nav-item active">
+          <span class="nav-icon">👥</span><span>Usuarios</span>
+        </a>
+        <a href="{% url 'admin_leaderboard' %}" class="admin-nav-item">
+          <span class="nav-icon">🏆</span><span>Clasificaciones</span>
+        </a>
+        <a href="{% url 'admin_reports' %}" class="admin-nav-item">
+          <span class="nav-icon">📈</span><span>Reportes</span>
+        </a>
+        <a href="{% url 'logout' %}" class="admin-nav-item logout">
+          <span class="nav-icon">🚪</span><span>Salir</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-header">
+        <div class="admin-header-left">
+          <h1>Gestión de Usuarios</h1>
+          <p class="admin-breadcrumb">Inicio / Usuarios</p>
+        </div>
+        <div class="admin-header-right">
+          <span class="admin-user">{{ request.user.nombre_mostrar|default:request.user.username }}</span>
+          <div class="admin-avatar">👤</div>
+        </div>
+      </header>
+
+      <div class="admin-card">
+        <div class="filters-section">
+          <div class="search-box">
+            <input type="text" placeholder="Buscar usuarios..." class="search-input" />
+            <button class="btn-search">🔍</button>
+          </div>
+          <div class="filter-controls">
+            <select class="filter-select">
+              <option value="all">Todos los usuarios</option>
+              <option value="active">Activos</option>
+              <option value="inactive">Inactivos</option>
+              <option value="banned">Baneados</option>
+            </select>
+            <select class="filter-select">
+              <option value="all">Todos los países</option>
+              <option value="MX">México</option>
+              <option value="US">Estados Unidos</option>
+              <option value="ES">España</option>
+            </select>
+            <button class="btn btn-primary">+ Nuevo Usuario</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-header">
+          <h3>Lista de Usuarios ({{ usuarios|length }} total)</h3>
+          <button class="btn btn-outline btn-sm">Exportar CSV</button>
+        </div>
+        <div class="card-body">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="checkbox-all" /></th>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>País</th>
+                <th>Nivel</th>
+                <th>Partidas</th>
+                <th>Registro</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>{{ usuario.id }}</td>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar-mini">👤</span>
+                    <span>{{ usuario.nombre_mostrar|default:usuario.username }}</span>
+                  </div>
+                </td>
+                <td>{{ usuario.email }}</td>
+                <td>{% if usuario.id_pais %}{{ usuario.id_pais.emoji_bandera }} {{ usuario.id_pais.nombre }}{% else %}-{% endif %}</td>
+                <td>{{ usuario.nivel_cuenta }}</td>
+                <td>{{ usuario.partidas_jugadas }}</td>
+                <td>{{ usuario.fecha_registro|date:"d/m/Y" }}</td>
+                <td>
+                  {% if usuario.esta_baneado %}
+                    <span style="color:#ff4444;">Baneado</span>
+                  {% else %}
+                    <span style="color:#90ee90;">Activo</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-action-sm" title="Ver">👁️</button>
+                    <button class="btn-action-sm" title="Editar">✏️</button>
+                    {% if usuario.esta_baneado %}
+                      <button class="btn-action-sm" title="Desbanear">✅</button>
+                    {% else %}
+                      <button class="btn-action-sm" title="Banear">🚫</button>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="10" style="text-align:center;">No hay usuarios registrados.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="pagination">
+            <button class="btn-page" disabled>« Anterior</button>
+            <button class="btn-page active">1</button>
+            <button class="btn-page">2</button>
+            <button class="btn-page">3</button>
+            <button class="btn-page">...</button>
+            <button class="btn-page">50</button>
+            <button class="btn-page">Siguiente »</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-header">
+          <h3>Acciones Masivas</h3>
+        </div>
+        <div class="card-body">
+          <div class="bulk-actions">
+            <p>0 usuarios seleccionados</p>
+            <div class="bulk-buttons">
+              <button class="btn btn-outline" disabled>Enviar Email</button>
+              <button class="btn btn-outline" disabled>Banear Seleccionados</button>
+              <button class="btn btn-danger" disabled>Eliminar Seleccionados</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

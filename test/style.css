@@ -1,0 +1,17 @@
+.sprite{
+    width:154px;
+    height:140px;
+    overflow:hidden;
+    display:inline-block;
+    image-rendering: pixelated;
+
+    background:url("maga.png") no-repeat;
+    background-size:770px 140px;
+
+    animation: idle 1s steps(5) infinite;
+}
+
+@keyframes idle{
+    from{ background-position:0 0; }
+    to{ background-position:-770px 0; }
+}

@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - Shadow Realms</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-container">
+      <div class="auth-box">
+        <!-- Logo -->
+        <div class="auth-logo">
+          <h1>SHADOW REALMS</h1>
+        </div>
+
+        <!-- Titulo -->
+        <h2 class="auth-title">Iniciar Sesion</h2>
+        <p class="auth-subtitle">Bienvenido de vuelta, heroe</p>
+
+        <!-- Mensajes de error -->
+        {% if messages %} {% for msg in messages %}
+        <div class="error-message">{{ msg }}</div>
+        {% endfor %} {% endif %}
+
+        <!-- Formulario -->
+        <form class="auth-form" action="{% url 'login' %}" method="POST">
+          {% csrf_token %}
+
+          <!-- Usuario -->
+          <div class="form-group">
+            <label for="username">Usuario o Email</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Tu usuario o email"
+              required
+            />
+          </div>
+
+          <!-- Contrasena -->
+          <div class="form-group">
+            <label for="password">Contrasena</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Tu contrasena"
+              required
+            />
+          </div>
+
+          <!-- Recordar sesion -->
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" name="remember" id="remember" />
+              <span>Recordar mi sesion</span>
+            </label>
+          </div>
+
+          <!-- Boton submit -->
+          <button type="submit" class="btn btn-primary btn-block">
+            Entrar al Juego
+          </button>
+
+          <!-- Link contrasena olvidada -->
+          <div class="form-footer">
+            <a href="#" class="link-secondary">Olvidaste tu contrasena?</a>
+          </div>
+        </form>
+
+        <!-- Separador -->
+        <div class="auth-divider">
+          <span>o</span>
+        </div>
+
+        <!-- Registro -->
+        <div class="auth-alternate">
+          <p>No tienes cuenta?</p>
+          <a href="{% url 'register' %}" class="btn btn-outline"
+            >Crear Cuenta Nueva</a
+          >
+        </div>
+
+        <!-- Volver al inicio -->
+        <div class="auth-back">
+          <a href="{% url 'index' %}" class="link-tertiary">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Particulas de fondo -->
+    <div class="particles-bg" id="particlesBg"></div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

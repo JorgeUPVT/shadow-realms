@@ -1,0 +1,302 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shadow Realms - El Juego de Fantasía Oscura</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="landing-page">
+    <!-- HEADER -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="logo">
+          <h1>⚔️ SHADOW REALMS</h1>
+        </div>
+        <div class="nav-links">
+          <a href="{% url 'login' %}">Iniciar Sesión</a>
+          <a href="{% url 'register' %}" class="btn-gold">Registrarse</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="title-main">SHADOW REALMS</h1>
+        <p class="subtitle">La Última Chispa contra la Oscuridad Eterna</p>
+        <p class="description">
+          Sumérgete en un mundo de fantasía oscura donde tú eres el último
+          héroe. Salva a Elara, la Zarina de Solaris, y derrota a Malakor, el
+          Señor de las Sombras.
+        </p>
+        <div class="hero-buttons">
+          <a href="{% url 'register' %}" class="btn btn-primary"
+            >Comenzar Aventura</a
+          >
+          <a href="#features" class="btn btn-secondary">Conocer Más</a>
+        </div>
+      </div>
+
+      <!-- Partículas decorativas -->
+      <div class="particles" id="particles"></div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">Características del Juego</h2>
+
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card">
+            <div class="feature-icon">⚔️</div>
+            <h3>4 Héroes Únicos</h3>
+            <p>
+              Elige entre el Caballero Oscuro, la Hechicera de Sombras, el
+              Arquero Fantasma o el Paladín de Luz
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>5 Niveles Épicos</h3>
+            <p>
+              Desde el Pantano Maldito hasta el Castillo del Dragón, cada nivel
+              es único y desafiante
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-card">
+            <div class="feature-icon">🐉</div>
+            <h3>Bosses Legendarios</h3>
+            <p>
+              Enfrenta a Vorgath, Ursagor, Nyx, Kael, Valdris y finalmente...
+              Malakor
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>Sistema de Ranking</h3>
+            <p>
+              Compite con jugadores de todo el mundo y escala en el leaderboard
+              global
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="feature-card">
+            <div class="feature-icon">📖</div>
+            <h3>Historia Profunda</h3>
+            <p>
+              Descubre los secretos de Solaris, el pasado de Malakor y el
+              destino del mundo
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="feature-card">
+            <div class="feature-icon">🎮</div>
+            <h3>Combate Estratégico</h3>
+            <p>Sistema de combate por turnos donde cada decisión cuenta</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARACTERS PREVIEW -->
+    <section class="characters-preview">
+      <div class="container">
+        <h2 class="section-title">Elige tu Héroe</h2>
+
+        <div class="characters-grid">
+          <!-- Character 1 -->
+          <div class="character-preview">
+            <div class="character-image">⚔️</div>
+            <h3>El Caballero Oscuro</h3>
+            <div class="stats">
+              <div class="stat">
+                <span>Fuerza</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 90%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Velocidad</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Magia</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 40%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Defensa</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Character 2 -->
+          <div class="character-preview">
+            <div class="character-image">🔮</div>
+            <h3>La Hechicera de Sombras</h3>
+            <div class="stats">
+              <div class="stat">
+                <span>Fuerza</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 40%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Velocidad</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 70%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Magia</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Defensa</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 50%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Character 3 -->
+          <div class="character-preview">
+            <div class="character-image">🏹</div>
+            <h3>El Arquero Fantasma</h3>
+            <div class="stats">
+              <div class="stat">
+                <span>Fuerza</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Velocidad</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Magia</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Defensa</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 40%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Character 4 -->
+          <div class="character-preview">
+            <div class="character-image">🛡️</div>
+            <h3>El Paladín de Luz</h3>
+            <div class="stats">
+              <div class="stat">
+                <span>Fuerza</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 80%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Velocidad</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 50%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Magia</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 70%"></div>
+                </div>
+              </div>
+              <div class="stat">
+                <span>Defensa</span>
+                <div class="stat-bar">
+                  <div class="stat-fill" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta">
+      <div class="container">
+        <h2>¿Listo para la Aventura?</h2>
+        <p>Únete a miles de jugadores en la batalla contra la oscuridad</p>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-large"
+          >Crear Cuenta Gratis</a
+        >
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Shadow Realms</h3>
+            <p>
+              Un juego de fantasía oscura donde la luz lucha contra las sombras.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Enlaces</h3>
+            <ul>
+              <li><a href="{% url 'index' %}">Inicio</a></li>
+              <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+              <li><a href="{% url 'register' %}">Registrarse</a></li>
+              <li><a href="#">Clasificación</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Soporte</h3>
+            <ul>
+              <li><a href="#">Ayuda</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Contacto</a></li>
+              <li>
+                <a href="#">Panel Admin</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2026 Shadow Realms. Proyecto Integrador II - Universidad
+            Politécnica del Valle de Toluca
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

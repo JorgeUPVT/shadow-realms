@@ -1,0 +1,106 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reportes y Analíticas - Shadow Realms Admin</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <h2>⚔️ ADMIN</h2>
+        <p>Shadow Realms</p>
+      </div>
+      <nav class="admin-nav">
+        <a href="{% url 'admin_dashboard' %}" class="admin-nav-item">
+          <span class="nav-icon">📊</span><span>Dashboard</span>
+        </a>
+        <a href="{% url 'admin_users' %}" class="admin-nav-item">
+          <span class="nav-icon">👥</span><span>Usuarios</span>
+        </a>
+        <a href="{% url 'admin_leaderboard' %}" class="admin-nav-item">
+          <span class="nav-icon">🏆</span><span>Clasificaciones</span>
+        </a>
+        <a href="{% url 'admin_reports' %}" class="admin-nav-item active">
+          <span class="nav-icon">📈</span><span>Reportes</span>
+        </a>
+        <a href="{% url 'logout' %}" class="admin-nav-item logout">
+          <span class="nav-icon">🚪</span><span>Salir</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-header">
+        <div class="admin-header-left">
+          <h1>Reportes y Analíticas</h1>
+          <p class="admin-breadcrumb">Inicio / Reportes</p>
+        </div>
+        <div class="admin-header-right">
+          <span class="admin-user">{{ request.user.nombre_mostrar|default:request.user.username }}</span>
+          <div class="admin-avatar">👤</div>
+        </div>
+      </header>
+
+      <div class="admin-stats-grid">
+        <div class="stat-card-admin">
+          <div class="stat-card-icon">📈</div>
+          <div class="stat-card-info">
+            <h3>Total Usuarios</h3>
+            <p class="stat-number">{{ total_usuarios|default:"0" }}</p>
+          </div>
+        </div>
+        <div class="stat-card-admin">
+          <div class="stat-card-icon">🎮</div>
+          <div class="stat-card-info">
+            <h3>Total Partidas Jugadas</h3>
+            <p class="stat-number">{{ total_partidas|default:"0" }}</p>
+          </div>
+        </div>
+        <div class="stat-card-admin">
+          <div class="stat-card-icon">⭐</div>
+          <div class="stat-card-info">
+            <h3>Promedio XP por Usuario</h3>
+            <p class="stat-number">{{ promedio_xp|default:"0" }}</p>
+          </div>
+        </div>
+        <div class="stat-card-admin">
+          <div class="stat-card-icon">🔄</div>
+          <div class="stat-card-info">
+            <h3>Usuarios Activos (esta semana)</h3>
+            <p class="stat-number">{{ usuarios_esta_semana|default:"0" }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="card-header">
+          <h3>Exportar Reportes</h3>
+        </div>
+        <div class="card-body">
+          <div class="export-options">
+            <div class="export-option">
+              <h4>📊 Reporte de Usuarios</h4>
+              <p>Datos completos de todos los usuarios</p>
+              <button class="btn btn-outline">Descargar CSV</button>
+            </div>
+            <div class="export-option">
+              <h4>🏆 Reporte de Clasificaciones</h4>
+              <p>Rankings y puntuaciones</p>
+              <button class="btn btn-outline">Descargar CSV</button>
+            </div>
+            <div class="export-option">
+              <h4>📈 Reporte de Actividad</h4>
+              <p>Actividad diaria/semanal</p>
+              <button class="btn btn-outline">Descargar CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
